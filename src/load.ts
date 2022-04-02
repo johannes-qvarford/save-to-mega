@@ -38,6 +38,8 @@ async function downloadBuffer(url: string): Promise<{ buffer: Buffer, contentTyp
 }
 
 function extractFilenameFromUrl(url: string, contentType: string | null): string {
+    // remove query parameters
+    url = url.replace(/(%3F|\?).*/, "")
     const filename = new URL(url).pathname.split('/').pop();
     if (!filename) {
         if (contentType == null) {
@@ -51,5 +53,6 @@ function extractFilenameFromUrl(url: string, contentType: string | null): string
         }
         return `${noExtension}.${ext}`
     }
+    // Remove query that may have been appended at the end.
     return filename;
 }
